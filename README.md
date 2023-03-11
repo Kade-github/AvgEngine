@@ -2,6 +2,12 @@
   <img src="https://user-images.githubusercontent.com/26305836/222349515-c41538d7-89c3-410d-9346-04784857f1c0.png">
 </p>
 
+## where are the files?
+
+Currently the engine is still being fully developed, and is not out atm.
+
+It will be later tho so just wait a bit.
+
 # Introduction
 
 Hello, welcome to AvgEngine. Probably the last thing you should use for a finished product *cough cough.* But a good learning experince at least.
