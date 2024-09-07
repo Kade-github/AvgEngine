@@ -356,7 +356,7 @@ AvgEngine/Includes/GLFW/*
 AvgEngine/Includes/glm/*
 AvgEngine/Includes/ImGui/*
 AvgEngine/Includes/KHR/*
-AvgEngine/Includes/stb_image
+AvgEngine/Includes/stb_image.h
 AvgEngine/x64/*
 AvgEngine/.vs/*
 Demo/.vs/*
