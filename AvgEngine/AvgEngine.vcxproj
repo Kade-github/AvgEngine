@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Includes\AvgEngine\Audio\Channel.h" />
+    <ClInclude Include="Includes\AvgEngine\Base\Camera.h" />
+    <ClInclude Include="Includes\AvgEngine\Base\GameObject.h" />
+    <ClInclude Include="Includes\AvgEngine\Base\Menu.h" />
+    <ClInclude Include="Includes\AvgEngine\Base\Rectangle.h" />
+    <ClInclude Include="Includes\AvgEngine\Base\Sprite.h" />
+    <ClInclude Include="Includes\AvgEngine\Base\Text.h" />
+    <ClInclude Include="Includes\AvgEngine\Debug\Console.h" />
+    <ClInclude Include="Includes\AvgEngine\Debug\ConsoleCommandHandler.h" />
+    <ClInclude Include="Includes\AvgEngine\EventManager.h" />
+    <ClInclude Include="Includes\AvgEngine\External\Base64.h" />
+    <ClInclude Include="Includes\AvgEngine\External\Bass\BASS.h" />
+    <ClInclude Include="Includes\AvgEngine\External\Image\imageinfo.hpp" />
+    <ClInclude Include="Includes\AvgEngine\External\Image\stbi.h" />
+    <ClInclude Include="Includes\AvgEngine\External\ImGui\ImGUIHelper.h" />
+    <ClInclude Include="Includes\AvgEngine\External\SpriteFont\FntParser.h" />
+    <ClInclude Include="Includes\AvgEngine\External\XML\pugiconfig.hpp" />
+    <ClInclude Include="Includes\AvgEngine\External\XML\pugixml.hpp" />
+    <ClInclude Include="Includes\AvgEngine\Game.h" />
+    <ClInclude Include="Includes\AvgEngine\Render\Display.h" />
+    <ClInclude Include="Includes\AvgEngine\Render\OpenGL\Shader.h" />
+    <ClInclude Include="Includes\AvgEngine\Render\OpenGL\Texture.h" />
+    <ClInclude Include="Includes\AvgEngine\Utils\Collision.h" />
+    <ClInclude Include="Includes\AvgEngine\Utils\Easing.h" />
+    <ClInclude Include="Includes\AvgEngine\Utils\EventManager.h" />
+    <ClInclude Include="Includes\AvgEngine\Utils\Logging.h" />
+    <ClInclude Include="Includes\AvgEngine\Utils\Paths.h" />
+    <ClInclude Include="Includes\AvgEngine\Utils\StringTools.h" />
+    <ClInclude Include="Includes\AvgEngine\Utils\TweenManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Includes\AvgEngine\Audio\Channel.cpp" />
+    <ClCompile Include="Includes\AvgEngine\Base\Camera.cpp" />
+    <ClCompile Include="Includes\AvgEngine\Base\GameObject.cpp" />
+    <ClCompile Include="Includes\AvgEngine\Debug\Console.cpp" />
+    <ClCompile Include="Includes\AvgEngine\Debug\ConsoleCommandHandler.cpp" />
+    <ClCompile Include="Includes\AvgEngine\External\Base64.cpp" />
+    <ClCompile Include="Includes\AvgEngine\External\Bass\BASS.cpp" />
+    <ClCompile Include="Includes\AvgEngine\External\Glad\glad.c" />
+    <ClCompile Include="Includes\AvgEngine\External\Image\stbi.cpp" />
+    <ClCompile Include="Includes\AvgEngine\External\ImGui\ImGUIHelper.cpp" />
+    <ClCompile Include="Includes\AvgEngine\External\SpriteFont\FntParser.cpp" />
+    <ClCompile Include="Includes\AvgEngine\External\XML\pugixml.cpp" />
+    <ClCompile Include="Includes\AvgEngine\Game.cpp" />
+    <ClCompile Include="Includes\AvgEngine\Render\Display.cpp" />
+    <ClCompile Include="Includes\AvgEngine\Render\OpenGL\Shader.cpp" />
+    <ClCompile Include="Includes\AvgEngine\Render\OpenGL\Texture.cpp" />
+    <ClCompile Include="Includes\AvgEngine\Utils\Easing.cpp" />
+    <ClCompile Include="Includes\AvgEngine\Utils\Logging.cpp" />
+    <ClCompile Include="Includes\AvgEngine\Utils\StringTools.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{c99ee38c-69d6-450e-a910-a722039778a5}</ProjectGuid>
+    <RootNamespace>AvgEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>Includes</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>Includes</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>Includes</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>Includes</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
