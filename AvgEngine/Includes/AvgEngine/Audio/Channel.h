@@ -176,6 +176,8 @@ namespace AvgEngine::Audio
 		{
 			if (id == -1)
 				return;
+			if (_rate < 0)
+				_rate = 0.1;
 			rate = _rate;
 			float bassRate = (rate * 100) - 100;
 			if (!BASS_ChannelSetAttribute(id, BASS_ATTRIB_TEMPO, bassRate))

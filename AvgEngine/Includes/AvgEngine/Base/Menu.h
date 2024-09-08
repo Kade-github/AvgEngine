@@ -103,7 +103,10 @@ namespace AvgEngine::Base
 		{
 			for (auto&& g : GameObjects)
 				if (g->id == object->id)
+				{
 					GameObjects.erase(std::ranges::remove(GameObjects, g).begin(), GameObjects.end());
+					break;
+				}
 		}
 
 		/**
@@ -114,7 +117,10 @@ namespace AvgEngine::Base
 		{
 			for (std::shared_ptr<GameObject> g : GameObjects)
 				if (g->id == id)
+				{
 					GameObjects.erase(std::ranges::remove(GameObjects, g).begin(), GameObjects.end());
+					break;
+				}
 		}
 
 		/**
