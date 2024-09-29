@@ -10,9 +10,7 @@
 
 #include <iostream>
 
-#include <Bass/bass.h>
-#include <Bass/bass_fx.h>
-
+#include <AL/al.h>
 #include <AvgEngine/Utils/Logging.h>
 
 namespace AvgEngine::Audio
@@ -21,8 +19,8 @@ namespace AvgEngine::Audio
 	{
 	public:
 		bool hasEnded = false;
-		unsigned long id = -1;
-		unsigned long decode = -1;
+		ALuint id;
+		ALuint buffer;
 		bool autoFree = false;
 		char* data;
 		bool isPlaying;
@@ -34,24 +32,78 @@ namespace AvgEngine::Audio
 		float volume = 1;
 
 		int length = 0;
+		int sampleRate = 0;
+		float lengthSeconds = 0;
 
-		Channel(unsigned long _id)
+		Channel()
 		{
-			id = _id;
+			alGenSources(1, &id);
+			alGenBuffers(1, &buffer);
+
+			alSourcef(id, AL_PITCH, 1);
+			alSourcef(id, AL_GAIN, 1);
+			alSource3f(id, AL_POSITION, 0, 0, 0);
+			alSource3f(id, AL_VELOCITY, 0, 0, 0);
+			alSourcei(id, AL_LOOPING, AL_FALSE);
+
 			data = NULL;
 			isPlaying = false;
 		}
 
-		void Repeat(bool once);
+		void Update()
+		{
+			if (id == -1)
+				return;
+			ALint state;
+			alGetSourcei(id, AL_SOURCE_STATE, &state);
+			if (state == AL_STOPPED)
+			{
+				isPlaying = false;
+				hasEnded = true;
+			}
+			else
+				hasEnded = false;
+		}
+
+		void LoadData(const char* _data, int _length, int _rate, int _channels, int _format)
+		{
+			if (id == -1)
+				return;
+			data = (char*)std::malloc(_length);
+			memcpy(data, _data, _length);
+			length = _length;
+			ALenum format = _channels == 2 ? (_format == 16 ? AL_FORMAT_STEREO16 : AL_FORMAT_STEREO8) : (_format == 16 ? AL_FORMAT_MONO16 : AL_FORMAT_MONO8);
+			alBufferData(buffer, format, data, length, _rate);
+			if (alGetError() != AL_NO_ERROR)
+			{
+				AvgEngine::Logging::writeLog("[OpenAL] [Error] Failed to load buffer data.");
+				return;
+			}
+			alSourcei(id, AL_BUFFER, buffer);
+			if (alGetError() != AL_NO_ERROR)
+			{
+				AvgEngine::Logging::writeLog("[OpenAL] [Error] Failed to set buffer data.");
+				return;
+			}
+
+			sampleRate = _rate;
+			lengthSeconds = (float)length / (float)_rate;
+
+			AvgEngine::Logging::writeLog("[OpenAL] [Info] Loaded buffer data." + std::to_string(length) + " bytes, " + std::to_string(_rate) + " Hz, " + std::to_string(_channels) + " channels, " + std::to_string(_format) + " bits.");
+		}
+
+		void Repeat(bool once)
+		{
+			if (id == -1)
+				return;
+			alSourcei(id, AL_LOOPING, once ? AL_FALSE : AL_TRUE);
+		}
 
 		/// <summary>
 		/// Free up the channel
 		/// </summary>
 		void Free()
 		{
-			if (id == -1)
-				return;
-			BASS_ChannelFree(id);
 			id = -1;
 
 			if (data) 
@@ -61,12 +113,18 @@ namespace AvgEngine::Audio
 		/// <summary>
 		/// Set the channel in a playing state
 		/// </summary>
-		void Play(bool restart = true)
+		void Play()
 		{
-			if (id == -1)
+			
+			alSourcef(id, AL_GAIN, volume);
+			alSourcef(id, AL_PITCH, rate);
+			alSourcePlay(id);
+			if (alGetError() != AL_NO_ERROR)
+			{
+				AvgEngine::Logging::writeLog("[OpenAL] [Error] Failed to play source.");
 				return;
-			if (!BASS_ChannelPlay(id, restart))
-				Logging::writeLog("[BASS] [Error] Failed to play channel: " + std::to_string(BASS_ErrorGetCode()));
+			}
+
 			isPlaying = true;
 		}
 
@@ -77,8 +135,9 @@ namespace AvgEngine::Audio
 		{
 			if (id == -1)
 				return;
-			if (!BASS_ChannelPause(id))
-				Logging::writeLog("[BASS] [Error] Failed to pause channel: " + std::to_string(BASS_ErrorGetCode()));
+			
+			alSourceStop(id);
+
 			isPlaying = false;
 		}
 
@@ -90,7 +149,9 @@ namespace AvgEngine::Audio
 		{
 			if (id == -1)
 				return 0;
-			return (BASS_ChannelBytes2Seconds(id, BASS_ChannelGetPosition(id, BASS_POS_BYTE)));
+			ALint byteOffset;
+			alGetSourcei(id, AL_BYTE_OFFSET, &byteOffset);
+			return byteOffset / (float)length;
 		}
 
 		/// <summary>
@@ -101,71 +162,8 @@ namespace AvgEngine::Audio
 		{
 			if (id == -1)
 				return;
-			auto bytes = BASS_ChannelSeconds2Bytes(id, s);
-			if (!BASS_ChannelSetPosition(id, bytes, BASS_POS_BYTE))
-				Logging::writeLog("[BASS] [Error] Failed to set channel position: " + std::to_string(BASS_ErrorGetCode()));
-		}
 
-		/// <summary>
-		/// Get a float* repersentation of the channel
-		/// </summary>
-		/// <param name="sampleLength">The length</param>
-		/// <returns>The sample</returns>
-		float* ReturnSongSample(int* sampleLength)
-		{
-			if (decode == -1)
-				decode = BASS_StreamCreateFile(false, path.c_str(), 0, 0, BASS_SAMPLE_FLOAT | BASS_STREAM_DECODE);
-
-			int leng = BASS_ChannelGetLength(decode, BASS_POS_BYTE);
-
-			float samples[4096];
-
-			leng = BASS_ChannelGetData(decode, samples, BASS_DATA_FFT4096 | BASS_DATA_AVAILABLE);
-			*sampleLength = leng;
-
-			if (BASS_ErrorGetCode() != 0) {
-				Logging::writeLog("[BASS] [Error] Failed to get Song Samples, Error " + std::to_string(BASS_ErrorGetCode()));
-			}
-			BASS_ChannelSetPosition(decode, BASS_ChannelSeconds2Bytes(decode, 0), NULL);
-
-			return samples;
-		}
-
-		/// <summary>
-		/// Get a float* repersentation of the channel (optionally in FTT)
-		/// </summary>
-		/// <param name="length">The length of the channel</param>
-		/// <param name="nonFFTLength">The non FTT lenght of the channel</param>
-		/// <param name="FFT">Return an FTT repersentation?</param>
-		/// <returns>The samples</returns>
-		/// 
-		float* ReturnSamples(float length, float* nonFFTLength, bool FFT = true)
-		{
-			// FREE THIS KADE :))))
-			float* samples = (float*)std::malloc(sizeof(float) * length);
-
-			if (decode == -1)
-				decode = BASS_StreamCreateFile(false, path.c_str(), 0, 0, BASS_SAMPLE_FLOAT | BASS_STREAM_DECODE);
-
-			if (FFT)
-				BASS_ChannelGetData(decode, samples, BASS_DATA_FFT_COMPLEX);
-
-			if (BASS_ErrorGetCode() != 0) {
-				Logging::writeLog("[BASS] [Error] Failed to return samples, Error " + std::to_string(BASS_ErrorGetCode()));
-			}
-
-			return samples;
-		}
-
-		/// <summary>
-		/// Get the current channels sample rate
-		/// </summary>
-		/// <returns>The sample rate</returns>
-		float SampleRate()
-		{
-			float sample;
-			BASS_ChannelGetAttribute(id, BASS_ATTRIB_FREQ, &sample);
-			return sample;
+			alSourcef(id, AL_SEC_OFFSET, s);
 		}
 
 		/// <summary>
@@ -179,20 +177,6 @@ namespace AvgEngine::Audio
 			if (_rate < 0)
 				_rate = 0.1;
 			rate = _rate;
-			float bassRate = (rate * 100) - 100;
-			if (!BASS_ChannelSetAttribute(id, BASS_ATTRIB_TEMPO, bassRate))
-				Logging::writeLog("[BASS] [Error] Failed to set channel rate: " + std::to_string(BASS_ErrorGetCode()));
-		}
-
-		/// <summary>
-		/// Convert the channel to a Effects Channel
-		/// </summary>
-		void ConvertToFX()
-		{
-			if (id == -1)
-				return;
-			BASS_ChannelFree(id);
-			id = BASS_FX_TempoCreate(BASS_StreamCreateFile(false, path.c_str(), 0, 0, BASS_STREAM_DECODE), BASS_FX_FREESOURCE);
 		}
 
 		/// <summary>
@@ -204,8 +188,8 @@ namespace AvgEngine::Audio
 			if (id == -1)
 				return;
 			volume = vol;
-			if (!BASS_ChannelSetAttribute(id, BASS_ATTRIB_VOL, vol))
-				Logging::writeLog("[BASS] [Error] Failed to set channel volume: " + std::to_string(BASS_ErrorGetCode()));
+
+			alSourcef(id, AL_GAIN, volume);
 		}
 
 		bool operator==(const Channel& other) {

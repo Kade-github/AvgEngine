@@ -69,9 +69,6 @@
     <ClInclude Include="Includes\AvgEngine\External\Image\stbi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Includes\AvgEngine\External\Bass\BASS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Includes\AvgEngine\Debug\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -100,6 +97,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Includes\AvgEngine\External\ImGui\ImGUIHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes\AvgEngine\External\minivorbis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -140,9 +140,6 @@
     <ClCompile Include="Includes\AvgEngine\External\Glad\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Includes\AvgEngine\External\Bass\BASS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Includes\AvgEngine\Debug\Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -155,10 +152,16 @@
     <ClCompile Include="Includes\AvgEngine\Base\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Includes\AvgEngine\Audio\Channel.cpp">
+    <ClCompile Include="Includes\AvgEngine\External\ImGui\ImGUIHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Includes\AvgEngine\External\ImGui\ImGUIHelper.cpp">
+    <ClCompile Include="Includes\AvgEngine\External\OpenAL\AL.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\AvgEngine\External\OpenAL\AL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Includes\AvgEngine\External\minivorbis.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

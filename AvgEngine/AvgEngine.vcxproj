@@ -30,10 +30,10 @@
     <ClInclude Include="Includes\AvgEngine\Debug\ConsoleCommandHandler.h" />
     <ClInclude Include="Includes\AvgEngine\EventManager.h" />
     <ClInclude Include="Includes\AvgEngine\External\Base64.h" />
-    <ClInclude Include="Includes\AvgEngine\External\Bass\BASS.h" />
     <ClInclude Include="Includes\AvgEngine\External\Image\imageinfo.hpp" />
     <ClInclude Include="Includes\AvgEngine\External\Image\stbi.h" />
     <ClInclude Include="Includes\AvgEngine\External\ImGui\ImGUIHelper.h" />
+    <ClInclude Include="Includes\AvgEngine\External\minivorbis.h" />
     <ClInclude Include="Includes\AvgEngine\External\SpriteFont\FntParser.h" />
     <ClInclude Include="Includes\AvgEngine\External\XML\pugiconfig.hpp" />
     <ClInclude Include="Includes\AvgEngine\External\XML\pugixml.hpp" />
@@ -50,13 +50,14 @@
     <ClInclude Include="Includes\AvgEngine\Utils\TweenManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Includes\AvgEngine\Audio\Channel.cpp" />
     <ClCompile Include="Includes\AvgEngine\Base\Camera.cpp" />
     <ClCompile Include="Includes\AvgEngine\Base\GameObject.cpp" />
     <ClCompile Include="Includes\AvgEngine\Debug\Console.cpp" />
     <ClCompile Include="Includes\AvgEngine\Debug\ConsoleCommandHandler.cpp" />
     <ClCompile Include="Includes\AvgEngine\External\Base64.cpp" />
-    <ClCompile Include="Includes\AvgEngine\External\Bass\BASS.cpp" />
+    <ClCompile Include="Includes\AvgEngine\External\minivorbis.c" />
+    <ClCompile Include="Includes\AvgEngine\External\OpenAL\AL.cpp" />
+    <ClCompile Include="Includes\AvgEngine\External\OpenAL\AL.h" />
     <ClCompile Include="Includes\AvgEngine\External\Glad\glad.c" />
     <ClCompile Include="Includes\AvgEngine\External\Image\stbi.cpp" />
     <ClCompile Include="Includes\AvgEngine\External\ImGui\ImGUIHelper.cpp" />
