@@ -360,3 +360,5 @@ AvgEngine/Includes/stb_image.h
 AvgEngine/x64/*
 AvgEngine/.vs/*
 Demo/.vs/*
+
+AvgEngine/vcpkg_installed/*
