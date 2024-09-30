@@ -89,7 +89,7 @@ namespace AvgEngine::Audio
 			sampleRate = _rate;
 			lengthSeconds = (float)length / (float)_rate;
 
-			AvgEngine::Logging::writeLog("[OpenAL] [Info] Loaded buffer data." + std::to_string(length) + " bytes, " + std::to_string(_rate) + " Hz, " + std::to_string(_channels) + " channels, " + std::to_string(_format) + " bits.");
+			AvgEngine::Logging::writeLog("[OpenAL] [Info] Loaded song at " + std::to_string(lengthSeconds) + "s long");
 		}
 
 		void Repeat(bool once)

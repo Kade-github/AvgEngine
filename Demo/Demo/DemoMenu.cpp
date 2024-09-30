@@ -13,6 +13,4 @@ void DemoMenu::load()
 void DemoMenu::draw()
 {
 	AvgEngine::Base::Menu::draw();
-
-	channel->Update();
 }

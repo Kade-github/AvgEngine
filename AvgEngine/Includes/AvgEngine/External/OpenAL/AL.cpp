@@ -7,49 +7,61 @@ ALCcontext* AvgEngine::External::OpenAL::AL::context = nullptr;
 
 void AvgEngine::External::OpenAL::AL::LoadOgg(const std::string& path, AvgEngine::Audio::Channel* channel)
 {
-	FILE* file = fopen(path.c_str(), "rb");
-	if (!file)
-	{
-		AvgEngine::Logging::writeLog("[OpenAL] [Error] Failed to open file: " + path);
-		return;
-	}
-
-	int channels, sampleRate;
-	short* output = NULL;
-	int samples = 0;
-
-	OggVorbis_File vorbis;
-
-	if (ov_open_callbacks(file, &vorbis, NULL, 0, OV_CALLBACKS_DEFAULT) != 0)
-	{
+    // Open the Ogg file
+    FILE* file = fopen(path.c_str(), "rb");
+    if (!file) {
 		AvgEngine::Logging::writeLog("[OpenAL] [Error] Failed to open OGG file: " + path);
+        return;
+    }
+
+    vorbis_info* vi;
+    vorbis_comment* vc;
+    OggVorbis_File oggFile;
+
+    if (ov_open(file, &oggFile, NULL, 0) < 0) {
+		AvgEngine::Logging::writeLog("[OpenAL] [Error] Failed to open OGG file: " + path);
+        fclose(file);
+        return;
+    }
+
+    vi = ov_info(&oggFile, -1);
+    int channels = vi->channels;
+    int sampleRate = vi->rate;
+
+    // Read the audio data
+    int totalSize = 0;
+    int current_section;
+    size_t bufferSize = 4096; // Start with 4 KB
+    char* bufferData = (char*)malloc(bufferSize);
+	if (!bufferData) {
+		AvgEngine::Logging::writeLog("[OpenAL] [Error] Failed to allocate memory for OGG file: " + path);
+		ov_clear(&oggFile);
+		fclose(file);
 		return;
 	}
+    int bytesRead;
 
-	vorbis_info* info = ov_info(&vorbis, -1);
-	channels = info->channels;
-	sampleRate = info->rate;
-	samples = ov_pcm_total(&vorbis, -1);
+    // Read the audio data
+    while ((bytesRead = ov_read(&oggFile, bufferData + totalSize, bufferSize - totalSize, 0, 2, 1, &current_section)) > 0) {
+        totalSize += bytesRead;
 
-	output = (short*)std::malloc(samples * channels * 2);
+        // If the buffer is full, resize it
+        if (totalSize >= bufferSize) {
+            bufferSize *= 2; // Double the size
+            bufferData = (char*)realloc(bufferData, bufferSize);
+            if (!bufferData) {
+				AvgEngine::Logging::writeLog("[OpenAL] [Error] Failed to allocate memory for OGG file: " + path);
+                ov_clear(&oggFile);
+                fclose(file);
+                return;
+            }
+        }
+    }
 
-	while (1)
-	{
-		int current_section;
-		long ret = ov_read(&vorbis, (char*)output, sizeof(output), 0, 2, 1, &current_section);
-		if (ret == 0)
-			break;
-		else if (ret < 0)
-		{
-			AvgEngine::Logging::writeLog("[OpenAL] [Error] Failed to read OGG file: " + path);
-			return;
-		}
-	}
+	AvgEngine::Logging::writeLog("[OpenAL] [Info] Loaded OGG file: " + path + " - Channels: " + std::to_string(channels) + " - Sample rate: " + std::to_string(sampleRate) + " - Size: " + std::to_string(totalSize));
 
-	ov_clear(&vorbis);
+	channel->LoadData((const char*)bufferData, totalSize, sampleRate, channels, 16);
 
-	AvgEngine::Logging::writeLog("[OpenAL] [Info] Loaded OGG file: " + path + " (" + std::to_string(samples) + " samples, " + std::to_string(channels) + " channels, " + std::to_string(sampleRate) + " Hz)");
-
-	channel->LoadData((const char*)output, samples * channels * 2, sampleRate, channels, 16);
-	free(output);
+	ov_clear(&oggFile);
+	fclose(file);
 }
